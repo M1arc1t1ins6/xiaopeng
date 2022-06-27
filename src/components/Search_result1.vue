@@ -5,7 +5,7 @@
         返回
       </a-button>
       <img src="@/assets/imgs/car_sample.jpg" alt="" class="search_sample_img">
-      <a-descriptions class="searchInfo" title="全新小鹏P7">
+      <a-descriptions class="searchInfo" title="小鹏P7">
         <!-- <a-descriptions-item label="UserName">
           Zhou Maomao
         </a-descriptions-item> -->
@@ -25,7 +25,8 @@
     </div>
     <a-table :columns="columns" :data-source="data" class="results">
     <a slot="name" slot-scope="text">{{ text }}</a>
-    <span slot="customTitle"><a-icon type="smile-o" /> 名字</span>
+    <span slot="customTitle"><a-icon type="smile-o" /> 名字
+    </span>
     <span slot="tags" slot-scope="tags">
       <a-tag
         v-for="tag in tags"
@@ -35,13 +36,13 @@
         {{ tag.toUpperCase() }}
       </a-tag>
     </span>
-    <!-- <span slot="action" slot-scope="text, record">
+    <span slot="action" slot-scope="text, record">
       <a>Invite 一 {{ record.name }}</a>
       <a-divider type="vertical" />
       <a>Delete</a>
       <a-divider type="vertical" />
       <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
-    </span> -->
+    </span>
   </a-table>
   </div>
 </template>
@@ -49,6 +50,7 @@
 <script>
 const columns = [
   {
+    title:"名字",
     dataIndex: 'name',
     key: 'name',
     slots: { title: 'customTitle' },

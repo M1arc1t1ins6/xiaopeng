@@ -7,10 +7,10 @@
     </div>
 
     <div>
-      <img src="@/assets/imgs/voice.png" class="voice" @click="click">
+      <img src="@/assets/imgs/voice.png" class="voice" >
       <img src="@/assets/imgs/bo.png" class="bo" v-show="showtime" />
-      <p v-if="!showtime">点击上方按钮进行语音输入</p>
-      <p v-else>您说，我正在听（再次点击按钮结束语音输入）</p>
+      <p v-if="!showtime">点击开始按钮进行语音输入</p>
+      <p v-else>您说，我正在听（点击停止结束语音输入）</p>
       <button @click="translationStart">开始</button>
        <button @click="translationEnd">停止</button>
     </div>
@@ -37,16 +37,15 @@ export default {
   methods:{
     onSearch(e){
       window.console.log(this.search_text)
-      // this.$router.push("/Search_summary")
-      this.$router.push("/temp.vue")
-    },
-    click(){
-      this.showtime = !this.showtime;
+      this.$router.push("/Search_summary")
+      // this.$router.push("/temp.vue")
     },
     translationStart() {
+      this.showtime = !this.showtime;
       iatRecorder.start();
     },
     translationEnd() {
+      this.showtime = !this.showtime;
       iatRecorder.onTextChange = (text) => {
         let inputText = text;
         this.searchData = inputText.substring(0, inputText.length - 1); //文字处理，因为不知道为什么识别输出的后面都带‘。’，这个方法是去除字符串最后一位

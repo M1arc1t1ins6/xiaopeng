@@ -33,7 +33,7 @@ h1{
   font-family: '微软雅黑';
   font-size: 300%;
   position: absolute;
-  left: 60%;
+  left: 65%;
   top:40%;
 }
 #TextToNextPage
@@ -41,7 +41,7 @@ h1{
     font-family: '微软雅黑';
     /* font-size: 300%; */
     position: absolute;
-    left: 60%;
+    left: 65%;
     top:48%;
 }
 .logoimg{
