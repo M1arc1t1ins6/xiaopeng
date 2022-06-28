@@ -63,6 +63,7 @@
 
 
 <script>
+// var temp_data={name:'123'}
 import axios from 'axios'
 export default {
   name: 'Search',
@@ -73,7 +74,8 @@ export default {
       searchLoading: false,
       para:'',
       ok:true,
-      search_data:{name:"陈小春",age:"48"}
+      temp_data:{name:'123'},
+      data_list:[]
     }
   },
   methods:{
@@ -83,58 +85,51 @@ export default {
     toSearch_result(e){
       this.$router.push("/Search_result1")
     },
-    getData(index) {
-        var temp = this
-        var str = "" 
-        if(index==1)
-        {
-          str = 'http://8.134.217.84:11111/order/detail'
-        }
-        else if(index==2)
-        {
-          str = 'http://8.134.217.84:11111/sale/detail'
-        }
-        else
-        {
-          str = 'http://8.134.217.84:11111/history/detail'
-        }
-        axios.get(str,
-        {
-          type:"P7"
-        }).then((response)=>{
-          // temp.search_data = response.data
-        }).catch((response)=>{
-          console.log(response);
-        })
-    },
-    search_check(index){
-              var temp = this
 
-              this.$options.methods.getData(index)
+    async search_check(index){
+              var that = this
+              
+              var next_path = ''
+              var str = ''
               if (index==1)
-              {
-               this.$router.push({
-                        path: '/Search_result1',
-                        query: {
-                          // name: "ming",
-                          // age: 18
-                          data: this.search_data
-                        }
-                      })
-                console.log("成功跳转")
+              { 
+                next_path = '/Search_result1'
+                str = 'http://8.134.217.84:11111/order/detail'
               }
               else if(index==2)
               {
-                this.$router.push("/Search_result2")
+                next_path = '/Search_result2'
+                str = 'http://8.134.217.84:11111/sale/detail'
               }
               else if(index==3)
               {
-                this.$router.push("/Search_result3")
+                next_path = '/Search_result3'
+                str = 'http://8.134.217.84:11111/history/detail'
               }
               else
               {
-                this.$alert('很遗憾！找不到相关信息！')
+                that.$alert('很遗憾！找不到相关信息！')
               }
+              var result = await axios.get(str,{
+                  params:{
+                  type:"P7"
+                  }
+                }
+                ).then((response)=>{
+                  that.data_list = response.data
+                  console.log(that.data_list)
+                }).catch((response)=>{
+                  console.log(response);
+                })
+                // console.log(that.data_list)
+                // console.log(result)
+              that.$router.push({
+                        path: next_path,
+                        query: {
+                          data: that.data_list
+                        }
+                      })
+             
         },
   }
   

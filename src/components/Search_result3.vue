@@ -1,106 +1,26 @@
 <template>
   <div class="page">
+     
     <div class="description_box">
       <a-button class="return_button" @click="toSearch_summary">
         返回
       </a-button>
       <img src="@/assets/imgs/car_sample.jpg" alt="" class="search_sample_img">
-      <a-descriptions class="searchInfo" title="全新小鹏P5">
-        <a-descriptions-item label="UserName">
-          Zhou Maomao
-        </a-descriptions-item>
-        <a-descriptions-item label="Telephone">
-          1810000000
-        </a-descriptions-item>
-        <a-descriptions-item label="Live">
-          Hangzhou, Zhejiang
-        </a-descriptions-item>
-        <a-descriptions-item label="Remark">
-          empty
-        </a-descriptions-item>
-        <a-descriptions-item label="Address">
-          No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
-        </a-descriptions-item>
+       <div id="chartLine" class="line-wrap"></div>
+      <a-descriptions class="searchInfo" title="小鹏P7过去一年的售价变化如下">
+      <p>当前报价:200000</p>
       </a-descriptions>
+    
+     
     </div>
-    <a-table :columns="columns" :data-source="data" class="results">
-    <a slot="name" slot-scope="text">{{ text }}</a>
-    <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
-    <span slot="tags" slot-scope="tags">
-      <a-tag
-        v-for="tag in tags"
-        :key="tag"
-        :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-      >
-        {{ tag.toUpperCase() }}
-      </a-tag>
-    </span>
-    <span slot="action" slot-scope="text, record">
-      <a>Invite 一 {{ record.name }}</a>
-      <a-divider type="vertical" />
-      <a>Delete</a>
-      <a-divider type="vertical" />
-      <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
-    </span>
-  </a-table>
+ 
   </div>
+ 
 </template>
 
 <script>
-const columns = [
-  {
-    dataIndex: 'name',
-    key: 'name',
-    slots: { title: 'customTitle' },
-    scopedSlots: { customRender: 'name' },
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    scopedSlots: { customRender: 'tags' },
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    scopedSlots: { customRender: 'action' },
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
-
+import * as echarts from 'echarts';
+require('echarts/theme/shine');//引入主题
 export default {
   name: 'SearchResult',
   data () {
@@ -108,18 +28,42 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       content: 'input search content',
       searchLoading: false,
-      data,
-      columns,
+      data_listq: {},
+      chartLine: null
     }
   },
   methods:{
     toSearch_summary(e){
+      // this.data_list = this.$route.query.data
       this.$router.push("/Search_summary")
-    }
+    },
+     drawLineChart() {
+        var myChart = echarts.init(document.getElementById('chartLine'));// 基于准备好的dom，初始化echarts实例
+        let option = {
+
+            calculable : true,
+            xAxis: { type: 'category', data: ['jun', 'jul', 'apr', 'sep', 'oct', 'nov', 'dec','jan','feb','mar','apr','may'] },
+            yAxis: { type: 'value'},
+            series: [
+              { data: [this.data_list['jun'], this.data_list['jul'], this.data_list['apr'], this.data_list['sep'], this.data_list['oct'], this.data_list['nov'], this.data_list['dec'], 
+              this.data_list['jan'], this.data_list['feb'], this.data_list['mar'], this.data_list['apr'], this.data_list['may']], type: 'line'
+              }
+            ]
+        };
+    //     // 使用刚指定的配置项和数据显示图表
+        myChart.setOption(option);
+      }
+  },
+  mounted(){
+      this.data_list = this.$route.query.data
+      this.$nextTick(() => {
+        this.drawLineChart();
+      })         
   }
+    
+ 
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
@@ -176,6 +120,14 @@ a {
 }
 .return_button{
   position: absolute;
-  right: 5%;
+  right: 10%;
+  color:red
+}
+
+.line-wrap{
+    width:800px;
+    height:400px;
+    position: relative;
+    top:70%
 }
 </style>

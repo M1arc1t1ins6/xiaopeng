@@ -128,7 +128,6 @@ const IatRecorder = class  {
             video: false,
           })
           .then(stream => {
-            console.log("?????????????????123123123123213123213123312312312")
             getMediaSuccess(stream)
           })
           .catch(e => {
@@ -141,7 +140,6 @@ const IatRecorder = class  {
             video: false,
           },
           stream => {
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!123123123123213123213123312312312")
             getMediaSuccess(stream)
           },
           function(e) {
@@ -165,8 +163,8 @@ const IatRecorder = class  {
           // 去处理音频数据
            if (this.status === 'ing') {
             
-             transWorker.postMessage(e.inputBuffer.getChannelData(0))
-            //  this.audioData.push(e.inputBuffer.getChannelData(0))
+            //  transWorker.postMessage(e.inputBuffer.getChannelData(0))
+             this.audioData.push(e.inputBuffer.getChannelData(0))
            }
         }
         // 创建一个新的MediaStreamAudioSourceNode 对象，使来自MediaStream的音频可以被播放和操作

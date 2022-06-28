@@ -23,48 +23,51 @@
         </a-descriptions-item> -->
       </a-descriptions>
     </div>
-    <a-table :columns="columns" :data-source="data" class="results">
-    <a slot="name" slot-scope="text">{{ text }}</a>
+    <a-table :columns="columns" :data-source="data_list" class="results">
+    <!-- <a slot="name" slot-scope="text">{{ text }}</a> -->
     <span slot="customTitle"><a-icon type="smile-o" /> 名字
     </span>
     <span slot="tags" slot-scope="tags">
       <a-tag
         v-for="tag in tags"
         :key="tag"
-        :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
       >
         {{ tag.toUpperCase() }}
       </a-tag>
     </span>
-    <span slot="action" slot-scope="text, record">
-      <a>Invite 一 {{ record.name }}</a>
+    <span slot="sex" slot-scope="text, record">
+      <a>{{ record.sex }}</a>
       <a-divider type="vertical" />
-      <a>Delete</a>
-      <a-divider type="vertical" />
-      <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
+      <!-- <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a> -->
     </span>
   </a-table>
   </div>
 </template>
 
 <script>
+
 const columns = [
   {
     title:"名字",
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'clientName',
+    key: 'clientName',
     slots: { title: 'customTitle' },
-    scopedSlots: { customRender: 'name' },
+    scopedSlots: { customRender: 'clientName' },
   },
   {
     title: '年龄',
     dataIndex: 'age',
     key: 'age',
   },
+   {
+    title: '成交价格',
+    dataIndex: 'deal',
+    key: 'deal',
+  },
   {
     title: '年收入',
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: 'income',
+    key: 'income',
   },
   {
     title: '职业',
@@ -74,34 +77,12 @@ const columns = [
   },
   {
     title: '性别',
-    key: 'action',
-    scopedSlots: { customRender: 'action' },
+    key: 'sex',
+    scopedSlots: { customRender: 'sex' },
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+
 export default {
   name: 'SearchResult',
   data () {
@@ -109,17 +90,23 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       content: 'input search content',
       searchLoading: false,
-      data,
       columns,
-      data_listq: {},
+      data_list: {},
     }
   },
   methods:{
     toSearch_summary(e){
+      // console.log(this.$route.query.data)
       // this.data_list = this.$route.query.data
       this.$router.push("/Search_summary")
+      // console.log(this.data_list)
+    },
+  },
+  mounted:function(){
+      console.log(this.$route.query.data)
+      this.data_list = this.$route.query.data
+      console.log(this.data_list)
     }
-  }
 }
 </script>
 
@@ -136,9 +123,9 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
+/* a {
   color: #42b983;
-}
+} */
 #inputsearch{
   width:600px
 }

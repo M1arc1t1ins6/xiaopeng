@@ -10,6 +10,8 @@ import axios from 'axios'
 import alert from './modules/alert'
 // import VueAxios from 'vue-axios'
 // import voiceInputButton from 'voice-input-button2'
+import * as echarts from 'echarts'
+// Vue.prototype.$echarts = echarts
 Vue.use(Icon)
 Vue.use(Upload)
 Vue.use(Input)

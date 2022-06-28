@@ -31,27 +31,50 @@ export default {
       showtime:false,
       search_text:'',
       search_data:''
-      // ok:false
     }
   },
   methods:{
     onSearch(e){
-      window.console.log(this.search_text)
-      this.$router.push("/Search_summary")
-      // this.$router.push("/temp.vue")
+      console.log(this.search_text)
+      
+      if (this.search_text.includes("P7")||this.search_text.includes("p7"))
+      {
+        this.$router.push("/Search_summary")
+      }
+      else{
+        this.$alert('非常抱歉！找不到相关信息。')
+      }
     },
     translationStart() {
-      this.showtime = !this.showtime;
-      iatRecorder.start();
+      if(this.showtime==true)
+      {
+        this.$alert('正在接收语音输入！请勿重复点击开始按钮！')
+      }
+      else
+      {
+        this.showtime = !this.showtime;
+        iatRecorder.start();
+      }
+      
     },
     translationEnd() {
-      this.showtime = !this.showtime;
+      if(this.showtime==false)
+      {
+        this.$alert('请先开始语音输入！')
+      }
+      else
+      {
+        console.log("????")
+        console.log(this.showtime)
+        this.showtime = !this.showtime;
       iatRecorder.onTextChange = (text) => {
         let inputText = text;
         this.searchData = inputText.substring(0, inputText.length - 1); //文字处理，因为不知道为什么识别输出的后面都带‘。’，这个方法是去除字符串最后一位
         console.log(this.searchData);
       };
       iatRecorder.stop();
+      }
+      
     },
       }
     }

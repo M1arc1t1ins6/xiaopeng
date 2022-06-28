@@ -60,45 +60,38 @@ export default {
       }
   },
   methods: {
-    // handleSubmit(e) {
-    //   e.preventDefault();
-    //   this.form.validateFields((err, values) => {
-    //     if (!err) {
-    //       localStorage.setItem('user',values);
-    //       this.$router.push("/Search")
-    //     }
-    //   });
-    // },
+
     toLogin(e){
       this.$router.push("/Search")
     },
-    getTbjnTableData() {
-        var temp = this 
-        axios.get('http://8.134.217.84:11111/user/login',
-        {
-          id:'00000001',
-          password:'3456789'
-        }).then((response)=>{
-          console.log(response)
-          temp.ok = response.data
-
-          // console.log(response.data)
-        }).catch((response)=>{
-          console.log(response);
-        })
-    },
-    login_check(){
+    async login_check(){
+                // this.userpass
                 var temp = this
-                this.$options.methods.getTbjnTableData()
-                if (!temp.ok)
+               
+                var result = await axios.get('http://8.134.217.84:11111/user/login',
+                  { 
+                    params:
+                    {
+                    id:temp.userphone,
+                    password:temp.userpass
+                  }
+                  }
+                  ).then((response)=>{
+                    console.log(response)
+                    temp.ok = response.data
+
+                  }).catch((response)=>{
+                    console.log(response);
+                  })
+                if (temp.ok)
                 {
                   // this.$options.methods.toLogin()
-                  this.$router.push("/Search")
+                  temp.$router.push("/Search")
                  
                 }
                 else
                 {
-                  this.$alert('密码输入错误，请查正后输入，如忘记密码请联系系统管理员。')
+                  temp.$alert('密码输入错误，请查正后输入，如忘记密码请联系系统管理员。')
                 }
         },
   },
