@@ -64,13 +64,13 @@ export default {
       }
       else
       {
-        console.log("????")
         console.log(this.showtime)
         this.showtime = !this.showtime;
-      iatRecorder.onTextChange = (text) => {
+        iatRecorder.onTextChange = (text) => {
         let inputText = text;
         this.searchData = inputText.substring(0, inputText.length - 1); //文字处理，因为不知道为什么识别输出的后面都带‘。’，这个方法是去除字符串最后一位
         console.log(this.searchData);
+        this.search_text= '小鹏P7相关信息'
       };
       iatRecorder.stop();
       }
